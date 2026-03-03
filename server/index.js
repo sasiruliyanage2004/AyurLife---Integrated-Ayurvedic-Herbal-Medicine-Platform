@@ -31,6 +31,8 @@ import adminRoutes from './routes/adminRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import productRequestRoutes from './routes/productRequestRoutes.js';
+import knowledgeRoutes from './routes/knowledgeRoutes.js';
+import forumRoutes from './routes/forumRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 app.use('/api/users', userRoutes);
@@ -45,12 +47,18 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/requests', productRequestRoutes);
+app.use('/api/knowledge', knowledgeRoutes);
+app.use('/api/forum', forumRoutes);
 
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.get('/', (req, res) => {
     res.send('AyurLife API is running...');
+});
+
+app.get('/api/test-admin', (req, res) => {
+    res.json({ message: 'Admin API route testing is working!' });
 });
 
 app.use(notFound);

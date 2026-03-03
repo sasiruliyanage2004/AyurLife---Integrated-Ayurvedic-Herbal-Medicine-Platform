@@ -20,7 +20,19 @@ const doctorSchema = new mongoose.Schema({
         day: String, // Mon, Tue, etc.
         startTime: String, // 09:00
         endTime: String // 17:00
-    }]
+    }],
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    verificationStatus: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
+    },
+    verifiedAt: {
+        type: Date
+    }
 }, {
     timestamps: true
 });

@@ -95,4 +95,44 @@ const updateSettings = async (req, res) => {
     }
 };
 
-export { getUsers, updateUserStatus, deleteUser, getSettings, updateSettings };
+import Doctor from '../models/Doctor.js';
+
+// ... existing functions ...
+
+// @desc    Get all pending doctors
+// @route   GET /api/admin/doctors/pending
+// @access  Private (Admin)
+const getPendingDoctors = async (req, res) => {
+    try {
+        const doctors = await Doctor.find({ verificationStatus: 'pending' }).populate('user', 'name email');
+        res.json(doctors);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Verify a doctor
+// @route   PUT /api/admin/doctors/:id/verify
+// @access  Private (Admin)
+const verifyDoctor = async (req, res) => {
+    const { status } = req.body; // 'approved' or 'rejected'
+
+    try {
+        const doctor = await Doctor.findById(req.params.id);
+
+        if (doctor) {
+            doctor.verificationStatus = status;
+            doctor.isVerified = status === 'approved';
+            doctor.verifiedAt = status === 'approved' ? Date.now() : null;
+
+            await doctor.save();
+            res.json(doctor);
+        } else {
+            res.status(404).json({ message: 'Doctor not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+export { getUsers, updateUserStatus, deleteUser, getSettings, updateSettings, getPendingDoctors, verifyDoctor };

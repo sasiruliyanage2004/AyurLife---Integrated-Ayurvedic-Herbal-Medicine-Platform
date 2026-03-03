@@ -5,7 +5,7 @@ import {
     Calendar, ClipboardList, UserCircle, Clock, Leaf, Tag,
     CheckCircle2, X, ShoppingBag, Activity, Heart, Stethoscope,
     Package, ChevronRight, ArrowUpRight, Sparkles,
-    TrendingUp, MapPin, Phone, Home
+    TrendingUp, MapPin, Phone, Home, BookOpen
 } from 'lucide-react';
 
 const StatCard = ({ icon: Icon, label, value, color, bg }) => (
@@ -84,6 +84,7 @@ const PatientDashboard = () => {
     const [shippingData, setShippingData] = useState({
         shippingAddress: '', city: '', postalCode: '', phoneNumber: '', paymentMethod: 'Cash on Delivery'
     });
+    const [articles, setArticles] = useState([]);
     const [successMsg, setSuccessMsg] = useState('');
     const navigate = useNavigate();
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -101,6 +102,7 @@ const PatientDashboard = () => {
         try { const { data } = await api.get('/production/batches'); setProducts(data.filter(b => b.status === 'ready' || b.status === 'bottled')); } catch { }
         try { const { data } = await api.get('/prescriptions/my'); setPrescriptions(data); } catch { }
         try { const { data } = await api.get('/requests/my'); setProductRequests(data); } catch { }
+        try { const { data } = await api.get('/knowledge'); setArticles(data.slice(0, 6)); } catch { }
         setLoading(false);
     };
 
@@ -144,6 +146,7 @@ const PatientDashboard = () => {
         { id: 'appointments', label: 'Doctors', icon: Stethoscope },
         { id: 'prescriptions', label: 'Prescriptions', icon: ClipboardList },
         { id: 'tracker', label: 'Medicine Tracker', icon: Package },
+        { id: 'knowledge', label: 'Knowledge', icon: BookOpen },
     ];
 
     return (
@@ -657,6 +660,62 @@ const PatientDashboard = () => {
                                 </div>
                             )}
                     </div>
+                </div>
+            )}
+            {/* ════════════════════════════
+                TAB: KNOWLEDGE
+            ════════════════════════════ */}
+            {activeTab === 'knowledge' && (
+                <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-400">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <h2 className="text-2xl font-black text-gray-800 tracking-tight">Verified Wisdom</h2>
+                            <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mt-1">Explore ancient cures for modern health</p>
+                        </div>
+                        <button
+                            onClick={() => navigate('/knowledge')}
+                            className="px-6 py-2.5 bg-white border border-gray-200 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-emerald-50 hover:border-emerald-200 transition-all flex items-center gap-2 shadow-sm"
+                        >
+                            Open Library <ArrowUpRight size={14} />
+                        </button>
+                    </div>
+
+                    {articles.length === 0 ? (
+                        <EmptyState icon={BookOpen} message="No wisdom found yet" action={() => navigate('/knowledge')} actionLabel="Go to Knowledge Base" />
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {articles.map((article) => (
+                                <div key={article._id} className="group bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden hover:shadow-2xl hover:shadow-emerald-100/50 transition-all duration-500 flex flex-col">
+                                    <div className="relative h-40 bg-emerald-50 flex items-center justify-center transition-colors group-hover:bg-emerald-100/50">
+                                        {article.category === 'Plants' ? <Leaf size={40} className="text-emerald-500" /> : <Sparkles size={40} className="text-emerald-500" />}
+                                        <div className="absolute top-4 left-4 px-3 py-1 bg-white/80 backdrop-blur-sm rounded-full text-[9px] font-black uppercase tracking-widest text-emerald-600 shadow-sm border border-emerald-100">
+                                            {article.category}
+                                        </div>
+                                    </div>
+                                    <div className="p-7 flex-1 flex flex-col space-y-3">
+                                        <h3 className="text-lg font-black text-gray-900 leading-tight group-hover:text-emerald-600 transition-colors uppercase tracking-tight">{article.title}</h3>
+                                        <p className="text-gray-500 text-[13px] line-clamp-3 font-medium flex-1">
+                                            {article.content}
+                                        </p>
+                                        <div className="pt-5 border-t border-gray-50 flex items-center justify-between mt-auto">
+                                            <div className="flex items-center gap-2">
+                                                <div className="h-7 w-7 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400">
+                                                    <UserCircle size={14} />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-700">Dr. {article.author?.user?.name || 'Expert'}</span>
+                                                    <span className="text-[8px] font-bold text-emerald-500 uppercase tracking-tighter">Verified Expert</span>
+                                                </div>
+                                            </div>
+                                            <button className="h-9 w-9 rounded-xl bg-gray-50 text-gray-400 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:rotate-45">
+                                                <ChevronRight size={16} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
 

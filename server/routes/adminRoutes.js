@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers, updateUserStatus, deleteUser, getSettings, updateSettings } from '../controllers/adminController.js';
+import { getUsers, updateUserStatus, deleteUser, getSettings, updateSettings, getPendingDoctors, verifyDoctor } from '../controllers/adminController.js';
 import { protect, authorize } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -16,6 +16,12 @@ router.route('/users/:id')
 
 router.route('/users/:id/verify')
     .put(updateUserStatus);
+
+router.route('/doctors/pending')
+    .get(getPendingDoctors);
+
+router.route('/doctors/:id/verify')
+    .put(verifyDoctor);
 
 router.route('/settings')
     .get(getSettings)
