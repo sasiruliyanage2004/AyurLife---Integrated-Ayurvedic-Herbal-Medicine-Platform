@@ -7,9 +7,8 @@ import User from '../models/User.js';
 const getDoctors = async (req, res) => {
     try {
         // Find users with role 'doctor' and get their doctor profile details
-        // This is a bit complex because Doctor model references User.
-        // Easier approach: Find Doctor models, populate User.
-        const doctors = await Doctor.find({}).populate('user', 'name email');
+        // Only return verified doctors for patient booking
+        const doctors = await Doctor.find({ isVerified: true }).populate('user', 'name email');
         res.json(doctors);
     } catch (error) {
         res.status(500).json({ message: 'Server Error' });

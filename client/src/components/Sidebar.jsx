@@ -12,7 +12,8 @@ import {
     Stethoscope,
     UserCircle,
     Leaf,
-    ChevronRight
+    ChevronRight,
+    BookOpen
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from './ThemeToggle';
@@ -40,6 +41,7 @@ const Sidebar = () => {
             { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
             { icon: Calendar, label: 'Appointments', path: '/doctor/appointments' },
             { icon: Stethoscope, label: 'Patients', path: '/doctor/patients' },
+            { icon: BookOpen, label: 'Knowledge Base', path: '/knowledge' },
             { icon: ShoppingBag, label: 'Herb Shop', path: '/herb-shop' },
             { icon: Settings, label: 'Availability', path: '/doctor/availability' },
         ],

@@ -19,7 +19,7 @@ const batchSchema = new mongoose.Schema({
     batchNumber: { type: String, required: true, unique: true },
     quantityProduced: Number,
     startDate: Date,
-    status: { type: String, enum: ['fermenting', 'processing', 'ready', 'bottled', 'expired'], default: 'processing' },
+    status: { type: String, enum: ['fermenting', 'processing', 'in-review', 'packaging', 'ready', 'bottled', 'expired'], default: 'processing' },
     expiryDate: Date,
     qualityLogs: [{
         date: { type: Date, default: Date.now },

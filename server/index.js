@@ -32,7 +32,6 @@ import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import productRequestRoutes from './routes/productRequestRoutes.js';
 import knowledgeRoutes from './routes/knowledgeRoutes.js';
-import forumRoutes from './routes/forumRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 app.use('/api/users', userRoutes);
@@ -48,7 +47,6 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/requests', productRequestRoutes);
 app.use('/api/knowledge', knowledgeRoutes);
-app.use('/api/forum', forumRoutes);
 
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));

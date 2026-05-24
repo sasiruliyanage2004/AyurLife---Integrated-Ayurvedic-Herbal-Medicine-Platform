@@ -37,10 +37,11 @@ const BookAppointment = () => {
         const fetchDoctors = async () => {
             try {
                 const { data } = await api.get('/doctors');
-                setDoctors(data);
-                if (data.length > 0) {
-                    setFormData(prev => ({ ...prev, doctorId: data[0].user._id }));
-                    setSelectedDoctor(data[0]);
+                const validDoctors = data.filter(d => d.user && d.user._id);
+                setDoctors(validDoctors);
+                if (validDoctors.length > 0) {
+                    setFormData(prev => ({ ...prev, doctorId: validDoctors[0].user._id }));
+                    setSelectedDoctor(validDoctors[0]);
                 }
             } catch (error) {
                 console.error('Error fetching doctors', error);
@@ -104,8 +105,8 @@ const BookAppointment = () => {
         setFormData({ ...formData, [name]: value });
 
         if (name === 'doctorId') {
-            const doc = doctors.find(d => d.user._id === value);
-            setSelectedDoctor(doc);
+            const doc = doctors.find(d => d.user && d.user._id === value);
+            setSelectedDoctor(doc || null);
             // Reset date/time on doctor change to force re-validation
             setFormData(prev => ({ ...prev, doctorId: value, date: '', time: '' }));
         }
@@ -229,7 +230,7 @@ const BookAppointment = () => {
                                             required
                                         >
                                             <option value="">-- Choose a specialist --</option>
-                                            {doctors.map((doc) => (
+                                            {doctors.map((doc) => doc.user && (
                                                 <option key={doc.user._id} value={doc.user._id}>
                                                     Dr. {doc.user.name} ({doc.specialization})
                                                 </option>

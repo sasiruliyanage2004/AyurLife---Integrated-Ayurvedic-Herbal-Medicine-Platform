@@ -18,8 +18,7 @@ import SupplierDashboard from './pages/SupplierDashboard';
 import WellnessServices from './pages/WellnessServices';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminSettings from './pages/AdminSettings';
-import KnowledgeBase from './pages/KnowledgeBase';
-import ForumPage from './pages/ForumPage';
+import Knowledge from './pages/Knowledge';
 
 function App() {
   return (
@@ -41,10 +40,9 @@ function App() {
         <Route path="/production/manage" element={<ProductionManage />} />
         <Route path="/wellness/services" element={<Layout><WellnessServices /></Layout>} />
         <Route path="/inventory-manage" element={<Layout><SupplierDashboard /></Layout>} />
-        <Route path="/knowledge" element={<Layout><KnowledgeBase /></Layout>} />
-        <Route path="/forum" element={<Layout><ForumPage /></Layout>} />
         <Route path="/admin/dashboard" element={<Layout><AdminDashboard /></Layout>} />
         <Route path="/admin/settings" element={<AdminSettings />} />
+        <Route path="/knowledge" element={<Knowledge />} />
         <Route path="/test" element={<div className="p-20 text-5xl font-bold text-primary">Frontend is Working!</div>} />
       </Routes>
     </div>

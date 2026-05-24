@@ -551,7 +551,7 @@ const PatientDashboard = () => {
                             Track Deliveries
                         </h2>
                         {orders.length === 0
-                            ? <EmptyState icon={ShoppingBag} message="No active orders to track" action={() => navigate('/shop')} actionLabel="Browse products" />
+                            ? <EmptyState icon={ShoppingBag} message="No active orders to track" action={() => navigate('/herb-shop')} actionLabel="Browse products" />
                             : (
                                 <div className="space-y-6">
                                     {orders.map((order) => {
@@ -631,7 +631,7 @@ const PatientDashboard = () => {
                                 <span className="h-8 w-8 bg-violet-100 text-violet-600 rounded-xl flex items-center justify-center"><ShoppingBag size={16} /></span>
                                 Browse Medicines
                             </h2>
-                            <button onClick={() => navigate('/shop')} className="text-[10px] font-black uppercase tracking-widest text-emerald-600 hover:text-emerald-500 flex items-center gap-1 transition-colors">
+                            <button onClick={() => navigate('/herb-shop')} className="text-[10px] font-black uppercase tracking-widest text-emerald-600 hover:text-emerald-500 flex items-center gap-1 transition-colors">
                                 View All <ArrowUpRight size={12} />
                             </button>
                         </div>

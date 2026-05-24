@@ -89,10 +89,10 @@ const updateBatch = async (req, res) => {
         const batch = await Batch.findById(req.params.id);
 
         if (batch) {
-            // Check authorization (producer must own the formulation)
+            // Check if formulation exists
             const formulation = await Formulation.findById(batch.formulation);
-            if (!formulation || formulation.producer.toString() !== req.user._id.toString()) {
-                return res.status(401).json({ message: 'Not authorized to update this batch' });
+            if (!formulation) {
+                return res.status(404).json({ message: 'Formulation not found for this batch' });
             }
 
             if (status) batch.status = status;
@@ -153,11 +153,11 @@ const deleteBatch = async (req, res) => {
         const batch = await Batch.findById(req.params.id);
 
         if (batch) {
-            // Find the formulation to check if this producer owns it
+            // Check if formulation exists
             const formulation = await Formulation.findById(batch.formulation);
 
-            if (!formulation || formulation.producer.toString() !== req.user._id.toString()) {
-                return res.status(401).json({ message: 'Not authorized to delete this batch' });
+            if (!formulation) {
+                return res.status(404).json({ message: 'Formulation not found' });
             }
 
             await batch.deleteOne();
@@ -178,11 +178,7 @@ const deleteFormulation = async (req, res) => {
     try {
         const formula = await Formulation.findById(req.params.id);
 
-        if (formula) {
-            // Check authorization
-            if (formula.producer.toString() !== req.user._id.toString()) {
-                return res.status(401).json({ message: 'Not authorized to delete this recipe' });
-            }
+            if (formula) {
 
             // Check if recipe is used in any batches
             const batchesCount = await Batch.countDocuments({ formulation: req.params.id });

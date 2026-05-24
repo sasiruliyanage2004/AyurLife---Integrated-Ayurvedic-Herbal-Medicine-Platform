@@ -89,7 +89,7 @@ const deleteInventoryItem = async (req, res) => {
         const item = await Inventory.findById(req.params.id);
 
         if (item) {
-            if (item.supplier.toString() !== req.user._id.toString()) {
+            if (req.user.role !== 'admin' && item.supplier.toString() !== req.user._id.toString()) {
                 return res.status(401).json({ message: 'Not authorized' });
             }
 

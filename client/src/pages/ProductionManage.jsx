@@ -247,14 +247,12 @@ const ProductionManage = () => {
                                                     <span>{batch.quantityProduced}</span>
                                                 </div>
                                                 <div className="flex items-center space-x-1">
-                                                    {activeStatuses.includes(batch.status) && (
-                                                        <button
-                                                            onClick={() => handleEditClick(batch)}
-                                                            className="p-2.5 bg-white text-gray-400 hover:text-primary hover:shadow-md rounded-xl transition-all border border-gray-100"
-                                                        >
-                                                            <Pencil size={14} />
-                                                        </button>
-                                                    )}
+                                                    <button
+                                                        onClick={() => handleEditClick(batch)}
+                                                        className="p-2.5 bg-white text-gray-400 hover:text-primary hover:shadow-md rounded-xl transition-all border border-gray-100"
+                                                    >
+                                                        <Pencil size={14} />
+                                                    </button>
                                                     <button
                                                         onClick={() => handleDeleteBatch(batch._id)}
                                                         className="p-2.5 bg-white text-gray-400 hover:text-red-500 hover:shadow-md rounded-xl transition-all border border-gray-100"
