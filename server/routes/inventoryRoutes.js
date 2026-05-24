@@ -13,6 +13,6 @@ router.route('/my')
 
 router.route('/:id')
     .put(protect, authorize('supplier', 'producer'), updateInventoryItem)
-    .delete(protect, authorize('supplier', 'producer'), deleteInventoryItem);
+    .delete(protect, authorize('supplier', 'producer', 'admin'), deleteInventoryItem);
 
 export default router;
